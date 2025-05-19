@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>آپلود عکس مراسم</title>
+  <style>
+    body { font-family: Tahoma; direction: rtl; text-align: center; margin-top: 50px; }
+  </style>
+</head>
+<body>
+  <h1>📸 عکس‌هات رو آپلود کن!</h1>
+  <form id="uploadForm">
+    <input type="file" name="file" id="fileInput" required>
+    <br><br>
+    <button type="submit">ارسال</button>
+  </form>
+  <p id="message"></p>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const message = document.getElementById('message');
+    
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const file = document.getElementById('fileInput').files[0];
+      if (!file) return alert("فایلی انتخاب نشده!");
+
+      const formData = new FormData();
+      formData.append('photo', file);
+
+      // لینک Webhook n8n که قراره فایل رو بفرسته به تلگرام
+      const webhookUrl = "https://YOUR-N8N-INSTANCE/webhook/photo-upload";
+
+      try {
+        const res = await fetch(webhookUrl, {
+          method: 'POST',
+          body: formData
+        });
+        if (res.ok) {
+          message.innerText = "✅ عکس با موفقیت ارسال شد!";
+        } else {
+          message.innerText = "❌ مشکلی در ارسال پیش آمد.";
+        }
+      } catch (err) {
+        message.innerText = "⛔ خطا در ارتباط با سرور.";
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
