@@ -29,7 +29,7 @@
       formData.append('photo', file);
 
       // لینک Webhook n8n که قراره فایل رو بفرسته به تلگرام
-      const webhookUrl = "https://mmdana.app.n8n.cloud/webhook-test/photo-upload";
+      const webhookUrl = "https://mmdana.app.n8n.cloud/webhook/photo-upload";
 
       try {
         const res = await fetch(webhookUrl, {
