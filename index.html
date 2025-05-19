@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -28,11 +29,14 @@
       margin: 2rem auto;
     }
 
-    input[type="file"] {
+    input[type="file"], input[type="text"] {
       display: block;
       margin: 1rem auto;
       font-size: 1rem;
       padding: 0.5rem;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 10px;
     }
 
     button {
@@ -101,6 +105,7 @@
   <h1>عکس‌هات رو باهامون به اشتراک بذار 📸</h1>
 
   <form id="uploadForm">
+    <input type="text" name="name" id="nameInput" placeholder="اسم شما (اختیاری)">
     <input type="file" name="photo" id="fileInput" multiple required accept="image/*">
     <button type="submit">ارسال</button>
     <div class="loader" id="loader">
@@ -112,6 +117,7 @@
   <script>
     const form = document.getElementById('uploadForm');
     const fileInput = document.getElementById('fileInput');
+    const nameInput = document.getElementById('nameInput');
     const message = document.getElementById('message');
     const loader = document.getElementById('loader');
 
@@ -131,6 +137,7 @@
       for (let file of files) {
         const formData = new FormData();
         formData.append('photo', file);
+        formData.append('name', nameInput.value);
 
         uploadPromises.push(fetch('https://mmdana.app.n8n.cloud/webhook/photo-upload', {
           method: 'POST',
